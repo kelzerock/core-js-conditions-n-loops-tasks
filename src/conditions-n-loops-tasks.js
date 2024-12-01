@@ -417,8 +417,70 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  let counterArr = 0;
+  const resultArr = [];
+  while (counterArr < matrix.length) {
+    const arr = [];
+    let counIn = 0;
+    while (counIn < matrix.length) {
+      arr[counIn] = 0;
+      counIn += 1;
+    }
+    resultArr[counterArr] = arr;
+    counterArr += 1;
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      resultArr[i][j] = matrix[i][j];
+    }
+  }
+  const cloneMatrix = matrix;
+
+  let startRow = 0;
+  let endRow = matrix.length - 1;
+  let startColumn = 0;
+  let endColumn = matrix.length - 1;
+  let origStartRow = 0;
+  let origEndRow = matrix.length - 1;
+  let origStartColumn = 0;
+  let origEndColumn = matrix.length - 1;
+
+  while (startRow <= endRow && startColumn <= endColumn) {
+    let countErSr = origEndRow;
+    for (let i = startColumn; i <= endColumn; i += 1) {
+      cloneMatrix[startRow][i] = resultArr[countErSr][origStartRow];
+      countErSr -= 1;
+    }
+    startRow += 1;
+    origStartColumn += 1;
+
+    let countScEc = origStartColumn;
+    for (let i = startRow; i <= endRow; i += 1) {
+      cloneMatrix[i][endColumn] = resultArr[origStartRow][countScEc];
+      countScEc += 1;
+    }
+    endColumn -= 1;
+    origStartRow += 1;
+
+    let countSrEr = origStartRow;
+    for (let i = endColumn; i >= startColumn; i -= 1) {
+      cloneMatrix[endRow][i] = resultArr[countSrEr][origEndColumn];
+      countSrEr += 1;
+    }
+    endRow -= 1;
+    origEndColumn -= 1;
+
+    let countEcSc = origEndColumn;
+    for (let i = endRow; i >= startRow; i -= 1) {
+      cloneMatrix[i][startColumn] = resultArr[origEndRow][countEcSc];
+      countEcSc -= 1;
+    }
+    startColumn += 1;
+    origEndRow -= 1;
+  }
+
+  return matrix;
 }
 
 /**
