@@ -499,16 +499,18 @@ function rotateMatrix(matrix) {
  */
 function sortByAsc(arr) {
   const arrClone = arr;
-  for (let i = 1; i < arrClone.length; i += 1) {
-    if (arrClone[i] < arrClone[i - 1]) {
-      let j = i;
-      while (arrClone[j] < arrClone[j - 1]) {
-        [arrClone[j], arrClone[j - 1]] = [arrClone[j - 1], arrClone[j]];
+  for (let i = 0; i < arrClone.length; i += 1) {
+    let j = i;
+    const checkNum = arrClone[i];
+    if (j > 0) {
+      while (checkNum < arrClone[j - 1] && j > 0) {
+        arrClone[j] = arrClone[j - 1];
         j -= 1;
       }
     }
+    arrClone[j] = checkNum;
   }
-  return arr;
+  return arrClone;
 }
 
 /**
