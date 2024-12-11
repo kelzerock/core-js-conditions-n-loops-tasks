@@ -549,8 +549,65 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const createTailNumber = (n, arr) => {
+    const sortArr = arr.sort((a, b) => a - b);
+    let check = true;
+    const resultArr = [];
+    let resultNum = 0;
+    sortArr.forEach((el) => {
+      if (el > n && check) {
+        check = false;
+        resultNum = el;
+        resultArr.push(n);
+      } else {
+        resultArr.push(el);
+      }
+    });
+    return [resultNum, ...resultArr];
+  };
+
+  const splitNumberToNum = (num) => {
+    const numbers = [];
+    let count = 10;
+    while (count < num * 10) {
+      const endNum = Math.floor((num % count) / (count / 10));
+      numbers.push(endNum);
+      count *= 10;
+    }
+    return numbers;
+  };
+  const arrNums = splitNumberToNum(number);
+
+  let arrMin = [];
+  let resultMinArr = [];
+  let firstPartArr = [];
+  let check = false;
+  let checkNum = 0;
+  for (let i = 0; i < arrNums.length; i += 1) {
+    arrMin = [];
+    if (check) {
+      break;
+    } else {
+      for (let j = 0; j < i; j += 1) {
+        arrMin.push(arrNums[j]);
+      }
+      if (arrMin.some((el) => el > arrNums[i])) {
+        check = true;
+        checkNum = arrNums[i];
+      }
+      firstPartArr = [];
+      for (let g = i + 1; g < arrNums.length; g += 1) {
+        firstPartArr.push(arrNums[g]);
+      }
+      resultMinArr = JSON.parse(JSON.stringify(arrMin));
+    }
+  }
+  const result = [
+    ...firstPartArr.reverse(),
+    ...createTailNumber(checkNum, resultMinArr),
+  ];
+  return +result.join('');
 }
 
 module.exports = {
