@@ -532,6 +532,7 @@ function shuffleChar(str, iterations) {
   let count = 0;
   let resultString = str;
   let checkIteration = iterations;
+  let checkStatus = true;
   while (count < checkIteration) {
     let firstPart = '';
     let lastPart = '';
@@ -543,12 +544,12 @@ function shuffleChar(str, iterations) {
       }
     }
     resultString = firstPart + lastPart;
+    count += 1;
 
-    if (resultString === str) {
+    if (resultString === str && checkStatus) {
       checkIteration = count + (checkIteration % count);
+      checkStatus = false;
       count = 0;
-    } else {
-      count += 1;
     }
   }
   return resultString;
