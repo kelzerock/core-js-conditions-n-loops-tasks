@@ -531,7 +531,8 @@ function sortByAsc(arr) {
 function shuffleChar(str, iterations) {
   let count = 0;
   let resultString = str;
-  while (count < iterations) {
+  let checkIteration = iterations;
+  while (count < checkIteration) {
     let firstPart = '';
     let lastPart = '';
     for (let i = 0; i < str.length; i += 1) {
@@ -542,7 +543,13 @@ function shuffleChar(str, iterations) {
       }
     }
     resultString = firstPart + lastPart;
-    count += 1;
+
+    if (resultString === str) {
+      checkIteration = count + (checkIteration % count);
+      count = 0;
+    } else {
+      count += 1;
+    }
   }
   return resultString;
 }
